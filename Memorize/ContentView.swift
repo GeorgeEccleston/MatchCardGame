@@ -21,30 +21,36 @@ struct ContentView: View {
             .foregroundColor(.orange)
 
             HStack {
-                Button(action: {
-                    if cardCount < emojis.count { cardCount += 1 }
-                }, label: {
-                    VStack{
-                        Image(systemName: "rectangle.stack.fill.badge.plus")
-                        Text("Add Card")
-                    }
-                    .background(.white)
-                })
+                cardAdder
                 Spacer()
-                Button(action: {
-                    if cardCount > 1 { cardCount -= 1 }
-                }, label: {
-                    VStack {
-                        Image(systemName: "rectangle.stack.fill.badge.minus")
-                        Text("Remove Card")
-                    }
-                    .background(.white)
-                })
+                cardRemover
             }
             .imageScale(.large)
             .font(.title3)
         }
         .padding(5.0)
+    }
+    var cardAdder: some View {
+        Button(action: {
+            if cardCount < emojis.count { cardCount += 1 }
+        }, label: {
+            VStack{
+                Image(systemName: "rectangle.stack.fill.badge.plus")
+                Text("Add Card")
+            }
+            .background(.white)
+        })
+    }
+    var cardRemover: some View {
+        Button(action: {
+            if cardCount > 1 { cardCount -= 1 }
+        }, label: {
+            VStack {
+                Image(systemName: "rectangle.stack.fill.badge.minus")
+                Text("Remove Card")
+            }
+            .background(.white)
+        })
     }
 }
 
