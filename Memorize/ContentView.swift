@@ -12,13 +12,9 @@ struct ContentView: View {
     
     var body: some View {
         HStack {
-            ForEach(0...3) { index in
-                CardView(emoji: emojis[index], isFaceUp: true)
+            ForEach(emojis, id: \.self) { emoji in
+                CardView(emoji: emoji, isFaceUp: Bool.random())
             }
-                
-//            CardView(emoji: emojis[1], isFaceUp: false)
-//            CardView(emoji: emojis[2], isFaceUp: true)
-//            CardView(emoji: emojis[3], isFaceUp: true)
         }
         .foregroundColor(/*@START_MENU_TOKEN@*/.orange/*@END_MENU_TOKEN@*/)
         .padding()
