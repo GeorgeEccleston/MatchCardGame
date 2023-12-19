@@ -12,28 +12,34 @@ struct ContentView: View {
     
     var body: some View {
         HStack {
+            CardView(isFaceUp: true)
             ForEach(emojis, id: \.self) { emoji in
                 CardView(emoji: emoji, isFaceUp: Bool.random())
             }
         }
-        .foregroundColor(/*@START_MENU_TOKEN@*/.orange/*@END_MENU_TOKEN@*/)
+        .font(.caption2)
+        .foregroundColor(.orange)
         .padding()
     }
 }
 
 struct CardView: View {
-    let emoji: String
-    var isFaceUp = false
+    var emoji: String = "???"
+    @State var isFaceUp = false
     
     var body: some View {
         ZStack {
+            let cardShape = RoundedRectangle(cornerRadius: 10)
             if isFaceUp {
-                RoundedRectangle(cornerRadius: 10).fill(.white)
-                RoundedRectangle(cornerRadius: 10).strokeBorder(lineWidth: 3)
+                cardShape.fill(.white)
+                cardShape.strokeBorder(lineWidth: 3)
                 Text(emoji).font(.largeTitle)
             } else {
-                RoundedRectangle(cornerRadius: 10).fill()
+                cardShape.fill()
             }
+        }
+        .onTapGesture {
+            isFaceUp = !isFaceUp
         }
     }
 }
