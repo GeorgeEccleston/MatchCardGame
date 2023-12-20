@@ -38,13 +38,11 @@ struct ContentView: View {
     func addRemoveACard(by offset: Int, symbol: String) -> some View {
         Button(action: {
             cardCount += offset
+            print("cardCount \(offset)")
         }, label: {
-            VStack{
                 Image(systemName: symbol)
-                Text("Add Card")
-            }
-            .background(.white)
         })
+        .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
     }
     var cardAdder: some View {
         addRemoveACard(by: 1, symbol: "rectangle.stack.fill.badge.plus")
