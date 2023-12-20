@@ -14,12 +14,13 @@ struct ContentView: View {
     var body: some View {
         VStack {
             displayCards
+            Spacer()
             updateNumberCards
         }
         .padding(5.0)
     }
     var displayCards: some View {
-        HStack {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 80, maximum: 150))]) {
             ForEach(0..<cardCount, id: \.self) { index in
                 CardView(emoji: emojis[index], isFaceUp: Bool.random())
             }
@@ -38,7 +39,7 @@ struct ContentView: View {
     func addRemoveACard(by offset: Int, symbol: String) -> some View {
         Button(action: {
             cardCount += offset
-            print("cardCount \(offset)")
+            print("cardCount \(cardCount)")
         }, label: {
                 Image(systemName: symbol)
         })
