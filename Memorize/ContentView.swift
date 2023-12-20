@@ -13,44 +13,44 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                ForEach(0..<cardCount, id: \.self) { index in
-                    CardView(emoji: emojis[index], isFaceUp: Bool.random())
-                }
-            }
-            .foregroundColor(.orange)
-
-            HStack {
-                cardAdder
-                Spacer()
-                cardRemover
-            }
-            .imageScale(.large)
-            .font(.title3)
+            displayCards
+            updateNumberCards
         }
         .padding(5.0)
     }
-    var cardAdder: some View {
+    var displayCards: some View {
+        HStack {
+            ForEach(0..<cardCount, id: \.self) { index in
+                CardView(emoji: emojis[index], isFaceUp: Bool.random())
+            }
+        }
+        .foregroundColor(.orange)
+    }
+    var updateNumberCards: some View {
+        HStack {
+            cardAdder
+            Spacer()
+            cardRemover
+        }
+        .imageScale(.large)
+        .font(.title3)
+    }
+    func addRemoveACard(by offset: Int, symbol: String) -> some View {
         Button(action: {
-            if cardCount < emojis.count { cardCount += 1 }
+            cardCount += offset
         }, label: {
             VStack{
-                Image(systemName: "rectangle.stack.fill.badge.plus")
+                Image(systemName: symbol)
                 Text("Add Card")
             }
             .background(.white)
         })
     }
+    var cardAdder: some View {
+        addRemoveACard(by: 1, symbol: "rectangle.stack.fill.badge.plus")
+    }
     var cardRemover: some View {
-        Button(action: {
-            if cardCount > 1 { cardCount -= 1 }
-        }, label: {
-            VStack {
-                Image(systemName: "rectangle.stack.fill.badge.minus")
-                Text("Remove Card")
-            }
-            .background(.white)
-        })
+        addRemoveACard(by: -1, symbol: "rectangle.stack.fill.badge.minus")
     }
 }
 
