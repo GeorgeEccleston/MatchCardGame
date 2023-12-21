@@ -9,15 +9,15 @@ import SwiftUI
 
 struct ContentView: View {
     let emojis = ["👽","🍎","🍋","👁️","👻","👄","🧵","👠","👀","💍","🏈","🥌"]
-    @State var cardCount = 4
+    @State var cardCount = 12
     
     var body: some View {
         VStack {
+            Text("Memorize Card Game").font(.largeTitle)
+            Spacer()
             ScrollView {
                 displayCards
             }
-            Spacer()
-            updateNumberCards
         }
         .padding(5.0)
     }
@@ -29,30 +29,6 @@ struct ContentView: View {
             }
         }
         .foregroundColor(.orange)
-    }
-    var updateNumberCards: some View {
-        HStack {
-            cardAdder
-            Spacer()
-            cardRemover
-        }
-        .imageScale(.large)
-        .font(.title3)
-    }
-    func addRemoveACard(by offset: Int, symbol: String) -> some View {
-        Button(action: {
-            cardCount += offset
-            print("cardCount \(cardCount)")
-        }, label: {
-                Image(systemName: symbol)
-        })
-        .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
-    }
-    var cardAdder: some View {
-        addRemoveACard(by: 1, symbol: "rectangle.stack.fill.badge.plus")
-    }
-    var cardRemover: some View {
-        addRemoveACard(by: -1, symbol: "rectangle.stack.fill.badge.minus")
     }
 }
 
