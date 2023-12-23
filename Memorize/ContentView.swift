@@ -28,11 +28,11 @@ struct ContentView: View {
                     emojis = halloween + halloween
                     emojis.shuffle()
                     cardCount = emojis.count
-                    print("Halloween Theme - Number Cards = \(cardCount)")
+
                 }, label: {
                     VStack {
                         Image(systemName: "person.circle.fill")
-                        Text("Halloween Theme")
+                        Text("Halloween \nTheme")
                     }
                 })
                     Spacer()
@@ -40,11 +40,11 @@ struct ContentView: View {
                         emojis = cars + cars
                         emojis.shuffle()
                         cardCount = emojis.count
-                        print("Car Theme - Number Cards = \(cardCount)")
+
                     }, label: {
                         VStack {
                             Image(systemName: "car.fill")
-                            Text("Cars Theme")
+                            Text("Cars \nTheme")
 
                         }
                     })
@@ -53,15 +53,17 @@ struct ContentView: View {
                         emojis = fruit + fruit
                         cardCount = emojis.count
                         emojis.shuffle()
-                        print("Fruit Theme - Number Cards = \(cardCount)")
+
                     }, label: {
                         VStack {
                             Image(systemName: "apple.logo")
-                            Text("Fruit Theme")
+                            Text("Fruit \nTheme")
                         }
                     })
                 Spacer()
             }
+            .imageScale(.large)
+            .font(.title3)
         }
         .padding(5.0)
     }
