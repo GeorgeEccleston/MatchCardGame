@@ -34,7 +34,6 @@ struct ContentView: View {
         }
         .padding(5.0)
     }
-    
     var displayCards: some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 90, maximum: 150))]) {
             ForEach(0..<cardCount, id: \.self) { index in
@@ -45,38 +44,23 @@ struct ContentView: View {
         }
     }
     var halloweenTheme: some View {
-        Button(action: {
-            emojis = halloween + halloween
-            emojis.shuffle()
-            cardCount = emojis.count
-        }, label: {
-            VStack {
-                Image(systemName: "person.circle.fill")
-                Text("Halloween \nTheme")
-            }
-        })
+        selectGameTheme(symbol: "person.circle.fill", symbolName: "Halloween \nTheme", emoji: halloween)
     }
     var carTheme: some View {
-        Button(action: {
-            emojis = cars + cars
-            emojis.shuffle()
-            cardCount = emojis.count
-        }, label: {
-            VStack {
-                Image(systemName: "car.fill")
-                Text("Cars \nTheme")
-            }
-        })
+        selectGameTheme(symbol: "car.fill", symbolName: "Cars \nTheme", emoji: cars)
     }
     var fruitTheme: some View {
+        selectGameTheme(symbol: "apple.logo", symbolName: "Fruit \nTheme", emoji: fruit)
+    }
+    func selectGameTheme(symbol: String, symbolName: String, emoji: [String]) -> some View {
         Button(action: {
-            emojis = fruit + fruit
-            cardCount = emojis.count
+            emojis = emoji + emoji
             emojis.shuffle()
+            cardCount = emojis.count
         }, label: {
             VStack {
-                Image(systemName: "apple.logo")
-                Text("Fruit \nTheme")
+                Image(systemName: symbol)
+                Text(symbolName )
             }
         })
     }
