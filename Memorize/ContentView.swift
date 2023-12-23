@@ -23,59 +23,63 @@ struct ContentView: View {
                 displayCards
             }
             HStack {
+                halloweenTheme
                 Spacer()
-                Button(action: {
-                    emojis = halloween + halloween
-                    emojis.shuffle()
-                    cardCount = emojis.count
-
-                }, label: {
-                    VStack {
-                        Image(systemName: "person.circle.fill")
-                        Text("Halloween \nTheme")
-                    }
-                })
-                    Spacer()
-                    Button(action: {
-                        emojis = cars + cars
-                        emojis.shuffle()
-                        cardCount = emojis.count
-
-                    }, label: {
-                        VStack {
-                            Image(systemName: "car.fill")
-                            Text("Cars \nTheme")
-
-                        }
-                    })
-                    Spacer()
-                    Button(action: {
-                        emojis = fruit + fruit
-                        cardCount = emojis.count
-                        emojis.shuffle()
-
-                    }, label: {
-                        VStack {
-                            Image(systemName: "apple.logo")
-                            Text("Fruit \nTheme")
-                        }
-                    })
+                carTheme
                 Spacer()
+                fruitTheme
             }
             .imageScale(.large)
             .font(.title3)
         }
         .padding(5.0)
     }
+    
     var displayCards: some View {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 90, maximum: 150))]) {
-                ForEach(0..<cardCount, id: \.self) { index in
-                    CardView(emoji: emojis[index], isFaceUp: true)
-                        .aspectRatio(2/3, contentMode: .fit)
-                }
-                .foregroundColor(.orange)
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 90, maximum: 150))]) {
+            ForEach(0..<cardCount, id: \.self) { index in
+                CardView(emoji: emojis[index], isFaceUp: true)
+                    .aspectRatio(2/3, contentMode: .fit)
             }
+            .foregroundColor(.orange)
         }
+    }
+    var halloweenTheme: some View {
+        Button(action: {
+            emojis = halloween + halloween
+            emojis.shuffle()
+            cardCount = emojis.count
+        }, label: {
+            VStack {
+                Image(systemName: "person.circle.fill")
+                Text("Halloween \nTheme")
+            }
+        })
+    }
+    var carTheme: some View {
+        Button(action: {
+            emojis = cars + cars
+            emojis.shuffle()
+            cardCount = emojis.count
+        }, label: {
+            VStack {
+                Image(systemName: "car.fill")
+                Text("Cars \nTheme")
+            }
+        })
+    }
+    var fruitTheme: some View {
+        Button(action: {
+            emojis = fruit + fruit
+            cardCount = emojis.count
+            emojis.shuffle()
+        }, label: {
+            VStack {
+                Image(systemName: "apple.logo")
+                Text("Fruit \nTheme")
+            }
+        })
+    }
 }
 
 struct CardView: View {
