@@ -12,23 +12,19 @@ struct ContentView: View {
     let cars = ["🛺","🚂","🚲","✈️","🛳️","🚗","🚌","🚑","🚔","🚜","🚓","🚒"]
     let fruit = ["🍉","🍎","🍋","🧄","🥦","🍇","🌽","🥕","🍌"]
     
-    @State var emojis = ["Select Theme"]
+    @State var gameTheme = "Select Card Game Theme"
+    @State var emojis = ["Select Card Theme"]
     @State var cardCount = 0
     
     var body: some View {
         VStack {
             Text("Memorize Card Game").font(.title)
+            Text("\(gameTheme)")
             Spacer()
             ScrollView {
                 displayCards
             }
-            HStack {
-                halloweenTheme
-                Spacer()
-                carTheme
-                Spacer()
-                fruitTheme
-            }
+            displayThemeButtons
             .imageScale(.large)
             .font(.title3)
         }
@@ -43,20 +39,31 @@ struct ContentView: View {
             .foregroundColor(.orange)
         }
     }
+    
+    var displayThemeButtons: some View {
+        HStack {
+            halloweenTheme
+            Spacer()
+            carTheme
+            Spacer()
+            fruitTheme
+        }
+    }
     var halloweenTheme: some View {
-        selectGameTheme(symbol: "person.circle.fill", symbolName: "Halloween \nTheme", emoji: halloween)
+        selectGameTheme(symbol: "person.circle.fill", symbolName: "Halloween", emoji: halloween)
     }
     var carTheme: some View {
-        selectGameTheme(symbol: "car.fill", symbolName: "Cars \nTheme", emoji: cars)
+        selectGameTheme(symbol: "car.fill", symbolName: "Cars", emoji: cars)
     }
     var fruitTheme: some View {
-        selectGameTheme(symbol: "apple.logo", symbolName: "Fruit \nTheme", emoji: fruit)
+        selectGameTheme(symbol: "apple.logo", symbolName: "Fruit", emoji: fruit)
     }
     func selectGameTheme(symbol: String, symbolName: String, emoji: [String]) -> some View {
         Button(action: {
             emojis = emoji + emoji
             emojis.shuffle()
             cardCount = emojis.count
+            gameTheme = "Match Cards with the same \(symbolName)"
         }, label: {
             VStack {
                 Image(systemName: symbol)
