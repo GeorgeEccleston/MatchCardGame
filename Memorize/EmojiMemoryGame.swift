@@ -9,31 +9,24 @@ import SwiftUI
 
 class EmojiMemoryGame {
     // global name space
+    
     private static let halloween = ["👽","🎃","☠️","👁️","👻","👺","👹","👀","🕷️","🪱","🐸","🐈‍⬛"]
-    private static let cars = ["🛺","🚂","🚲","✈️","🛳️","🚗","🚌","🚑","🚔","🚜","🚓","🚒"]
-    private static let fruit = ["🍉","🍎","🍋","🧄","🥦","🍇","🌽","🥕","🍌","🥝","🌶️","🫒"]
-    private static let emojis = halloween
+    private static let cars      = ["🛺","🚂","🚲","✈️","🛳️","🚗","🚌","🚑","🚔","🚜","🚓","🚒"]
+    private static let fruit     = ["🍉","🍎","🍋","🧄","🥦","🍇","🌽","🥕","🍌","🥝","🌶️","🫒"]
+    private static var emojis    = halloween
     
-    private static let numberCardPairs = Int.random(in: 2 ... 10)
-    
-    private static func createACard(numberCardPairs index: Int) -> String {
-        return emojis[index]
+    private static func createMemoryGame() -> MemoryGame<String> {
+        return MemoryGame(numberCardPairs: Int.random(in: 2 ... 12)) { cardIndex in
+            if emojis.indices.contains(cardIndex) {
+                return emojis[cardIndex]
+            } else {
+                return "⁉️ oops"
+            }
+        }
     }
     
-//    private static func createMemoryGame() -> MemoryGame<String> {
-//        return MemoryGame<String>(numberCardPairs: 4) { pairIndex in
-//            if emojis.indices.contains(pairIndex) {
-//                return emojis[pairIndex]
-//            } else {
-//                return "⁉️ oops"
-//            }
-//        } 
-//    }
+    private var game = createMemoryGame()
 
-    private var game = MemoryGame(numberCardPairs: Int.random(in: 2 ... 12)) { index in
-            return emojis[index]
-        }
-    
     var cards: [MemoryGame<String>.Card] {
         return game.cards
     }
@@ -43,8 +36,18 @@ class EmojiMemoryGame {
         game.choose(card)
     }
     
-    func selectEmojiTheme(emojiName: String) -> Array<String> {
-        return [emojiName]
+    //    mutate func shuffleCards( {
+    //        game.cards.shuffle()
+    //    })
+
+    func selectEmojiTheme(_ theme: String) {
+        switch theme {
+            case "halloween": EmojiMemoryGame.emojis = EmojiMemoryGame.halloween
+            case "cars":      EmojiMemoryGame.emojis = EmojiMemoryGame.cars
+            case "fruit":      EmojiMemoryGame.emojis = EmojiMemoryGame.fruit
+        default: break
+    }
+        return
     }
 }
 

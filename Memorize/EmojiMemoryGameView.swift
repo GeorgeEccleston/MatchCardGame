@@ -1,5 +1,5 @@
 //
-//  MemoryGameView.swift
+//  EmojiMemoryGameView.swift
 //  Memorize
 //
 //  Created by GeorgeAdmin on 12/18/23.
@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct MemoryGameView: View {
-    var game: EmojiMemoryGame  // points back into ViewModel to check for changes in Model
+struct EmojiMemoryGameView: View {
+    var game: EmojiMemoryGame = EmojiMemoryGame()  // points back into ViewModel to check for changes in Model
     
     @State var gameTheme = "Select Card Game Theme"
     @State var emojis: [String] = []
@@ -78,9 +78,9 @@ struct CardView: View {
         ZStack {
             let cardShape = RoundedRectangle(cornerRadius: 12)
             Group {
-//                cardShape.fill(.white)
-//                cardShape.strokeBorder(lineWidth: 3)
-                Text(card.face).font(Font.largeTitle)
+                cardShape.fill(.white)
+                cardShape.strokeBorder(lineWidth: 3)
+                Text(card.content).font(Font.largeTitle)
             }
                 .opacity(card.isFaceUp ? 1 : 0)
             cardShape.fill()
@@ -97,5 +97,5 @@ struct CardView: View {
 
 
 #Preview {
-    MemoryGameView()
+    EmojiMemoryGameView()
 }
