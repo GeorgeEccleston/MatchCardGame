@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-class EmojiMemoryGame {
-    // global name space
+class EmojiMemoryGame: ObservableObject {
     
+    // global name space
     private static let halloween = ["👽","🎃","☠️","👁️","👻","👺","👹","👀","🕷️","🪱","🐸","🐈‍⬛"]
     private static let cars      = ["🛺","🚂","🚲","✈️","🛳️","🚗","🚌","🚑","🚔","🚜","🚓","🚒"]
     private static let fruit     = ["🍉","🍎","🍋","🧄","🥦","🍇","🌽","🥕","🍌","🥝","🌶️","🫒"]
@@ -25,7 +25,7 @@ class EmojiMemoryGame {
         }
     }
     
-    private var game = createMemoryGame()
+    @Published private var game = createMemoryGame()
 
     var cards: [MemoryGame<String>.Card] {
         return game.cards
@@ -35,10 +35,11 @@ class EmojiMemoryGame {
     func choose(_ card: MemoryGame<String>.Card) {
         game.choose(card)
     }
+//    Mark - Intents
     
-    //    mutate func shuffleCards( {
-    //        game.cards.shuffle()
-    //    })
+    func shuffleCards() {
+        game.shuffle()
+    }
 
     func selectEmojiTheme(_ theme: String) {
         switch theme {

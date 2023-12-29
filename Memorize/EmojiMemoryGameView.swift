@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EmojiMemoryGameView: View {
-    var game: EmojiMemoryGame = EmojiMemoryGame()  // points back into ViewModel to check for changes in Model
+    @ObservedObject var game: EmojiMemoryGame  // points back into ViewModel to check for changes in Model
     
     @State var gameTheme = "Select Card Game Theme"
     @State var emojis: [String] = []
@@ -17,62 +17,39 @@ struct EmojiMemoryGameView: View {
     var body: some View {
         VStack {
             Text("Memorize Card Game").font(.title)
-            Text("\(gameTheme)")
+            Text("Match Cards")
             Spacer()
             ScrollView {
                 displayCards
             }
-//            displayThemeButtons
-//            .imageScale(.large)
-//            .font(.title3)
+            Spacer()
+            Button("Shuffle Cards") {
+                game.shuffleCards()
+            }
+         
         }
         .padding(5.0)
     }
     var displayCards: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 90, maximum: 150))]) {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 90, maximum: 150), spacing: 0)], spacing: 0) {
             ForEach(game.cards.indices, id: \.self) { index in
-                CardView(card: game.cards[index])
+                CardView(game.cards[index])
                     .aspectRatio(2/3, contentMode: .fit)
+                    .padding(4)
             }
             .foregroundColor(.orange)
         }
     }
-    
-//    var displayThemeButtons: some View {
-//        HStack {
-//            halloweenTheme
-//            Spacer()
-//            carTheme
-//            Spacer()
-//            fruitTheme
-//        }
-//    }
-//    var halloweenTheme: some View {
-//        selectGameTheme(symbol: "person.circle.fill", symbolName: "Halloween", emoji: halloween)
-//    }
-//    var carTheme: some View {
-//        selectGameTheme(symbol: "car.fill", symbolName: "Cars", emoji: cars)
-//    }
-//    var fruitTheme: some View {
-//        selectGameTheme(symbol: "apple.logo", symbolName: "Fruit", emoji: fruit)
-//    }
-//    func selectGameTheme(symbol: String, symbolName: String, emoji: [String]) -> some View {
-//        Button(action: {
-//            emojis = emoji + emoji
-//            emojis.shuffle()
-//            cardCount = emojis.count
-//            gameTheme = "Match Cards with the same \(symbolName)"
-//        }, label: {
-//            VStack {
-//                Image(systemName: symbol)
-//                Text(symbolName)
-//            }
-//        })
-//    }
+           
+
 }
 
 struct CardView: View {
     let card: MemoryGame<String>.Card
+    
+    init(_ card: MemoryGame<String>.Card) {
+        self.card = card
+    }
     
     var body: some View {
         ZStack {
@@ -80,7 +57,10 @@ struct CardView: View {
             Group {
                 cardShape.fill(.white)
                 cardShape.strokeBorder(lineWidth: 3)
-                Text(card.content).font(Font.largeTitle)
+                Text(card.content)
+                    .font(.system(size: 200))
+                    .minimumScaleFactor(0.01)
+                    .aspectRatio(1, contentMode: .fit)
             }
                 .opacity(card.isFaceUp ? 1 : 0)
             cardShape.fill()
@@ -97,5 +77,5 @@ struct CardView: View {
 
 
 #Preview {
-    EmojiMemoryGameView()
+    EmojiMemoryGameView(game: EmojiMemoryGame())
 }
