@@ -39,16 +39,14 @@ struct EmojiMemoryGameView: View {
                     CardView(card)
                         .aspectRatio(2/3, contentMode: .fit)
                         .padding(4)
-                    Text(card.id)
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        .foregroundColor(Color.black)
+//                    Text(card.id)
+//                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+//                        .foregroundColor(Color.black)
                 }
             }
             .foregroundColor(.orange)
         }
     }
-           
-
 }
 
 struct CardView: View {
