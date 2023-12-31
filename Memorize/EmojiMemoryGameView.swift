@@ -19,9 +19,10 @@ struct EmojiMemoryGameView: View {
             Text("Memorize Card Game").font(.title)
             Text("Match Cards")
             Spacer()
-            ScrollView {
-                displayCards
-            }
+                ScrollView {
+                    displayCards
+                        .animation(.default, value: game.cards)
+                }
             Spacer()
             Button("Shuffle Cards") {
                 game.shuffleCards()
@@ -31,11 +32,17 @@ struct EmojiMemoryGameView: View {
         .padding(5.0)
     }
     var displayCards: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 90, maximum: 150), spacing: 0)], spacing: 0) {
-            ForEach(game.cards.indices, id: \.self) { index in
-                CardView(game.cards[index])
-                    .aspectRatio(2/3, contentMode: .fit)
-                    .padding(4)
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 90, maximum: 150),
+                           spacing: 0)], spacing: 0) {
+            ForEach(game.cards) { card in
+                VStack {
+                    CardView(card)
+                        .aspectRatio(2/3, contentMode: .fit)
+                        .padding(4)
+                    Text(card.id)
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .foregroundColor(Color.black)
+                }
             }
             .foregroundColor(.orange)
         }

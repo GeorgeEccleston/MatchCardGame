@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MemoryGame<CardContent> {
+struct MemoryGame<CardContent> where CardContent: Equatable {
     
     private(set) var cards: [Card]
     
@@ -15,8 +15,8 @@ struct MemoryGame<CardContent> {
         cards = []
         for pairIndex in 0..<max(2, numberCardPairs) {
             let card = createACard(pairIndex)
-            cards.append(Card(content: card))
-            cards.append(Card(content: card))
+            cards.append(Card(content: card, id: "\(pairIndex + 1)a"))
+            cards.append(Card(content: card, id: "\(pairIndex + 1)b"))
         }
     }
     
@@ -29,9 +29,11 @@ struct MemoryGame<CardContent> {
         print(cards)
     }
 
-    struct Card {
+    struct Card: Equatable, Identifiable {
         var isFaceUp = true
         var isMatched = false
         let content: CardContent
+        
+        var id: String
     }
 }
