@@ -39,6 +39,10 @@ struct EmojiMemoryGameView: View {
                     CardView(card)
                         .aspectRatio(2/3, contentMode: .fit)
                         .padding(4)
+                        .onTapGesture {
+                            game.choose(card)
+                        }
+//                    FIXME: Add card id to UI
 //                    Text(card.id)
 //                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
 //                        .foregroundColor(Color.black)
@@ -62,6 +66,7 @@ struct CardView: View {
             Group {
                 cardShape.fill(.white)
                 cardShape.strokeBorder(lineWidth: 3)
+//              MARK: Display card content on UI
                 Text(card.content)
                     .font(.system(size: 200))
                     .minimumScaleFactor(0.01)

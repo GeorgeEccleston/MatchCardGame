@@ -20,25 +20,40 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         }
     }
     
-    func choose(_ card: Card   ) {
-         
+    mutating func choose(_ card: Card) {
+        if let chosenIndex = index(of: card) {
+            cards[chosenIndex].isFaceUp.toggle()
+            print("card chosen is \(card)")   //Debug print
+            
+            
+        }  // If nil returned then ignore and do nothing
     }
-     
-    mutating func shuffle() {
-        cards.shuffle()
-        print(cards)
+        
+    // MARK: check if index of chosen card is in cards array
+    func index(of card: Card) -> Int? {
+        for index in cards.indices {
+            if cards[index].id == card.id { return index }
+        }
+        return nil
     }
 
-    struct Card: Equatable, Identifiable, CustomDebugStringConvertible {
-   
+    mutating func shuffle() {
+        cards.shuffle()
+//        print(cards)
+    }
+
+    struct Card: Equatable, Identifiable {
         var isFaceUp = true
         var isMatched = false
         let content: CardContent
         
         var id: String
         
-        var debugDescription: String {
-            "card \(id) \(isFaceUp ? "FaceUp" : "FaceDown") \(isMatched ? "matched" : "not matched") \n"
-        }
+// TODO: todo comment
+//  FIXME: Example of debug statement: requires Protocol CustomDebugStringConvertible
+//        var debugDescription: String {
+//         "card \(id) \(isFaceUp ? "FaceUp" : "FaceDown") \(isMatched ? "matched" : "not matched") \n"
+//       }
     }
 }
+
