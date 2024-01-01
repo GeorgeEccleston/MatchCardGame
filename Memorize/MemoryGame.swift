@@ -21,12 +21,37 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     }
     
     mutating func choose(_ card: Card) {
+        var numCardsSelected = 0
+        var indexFirstCard: Int = 0
+        let match = false
+        var numberMatches = 0
+        var numberMisses = 0
+
         if let chosenIndex = index(of: card) {
             cards[chosenIndex].isFaceUp.toggle()
+            numCardsSelected += 1
+            if numCardsSelected == 1 {indexFirstCard = chosenIndex}
+            if numCardsSelected == 2 && indexFirstCard != chosenIndex {
+                let match = checkCardMatch(firstCard: indexFirstCard, secondCard: chosenIndex)
+            }
+            if match {
+                numberMatches += 1
+                cards.remove(at: indexFirstCard)
+                cards.remove(at: chosenIndex)
+            } else {
+                numberMisses += 1
+                cards[indexFirstCard].isFaceUp.toggle()
+                cards[chosenIndex].isFaceUp.toggle()
+            }
             print("card chosen is \(card)")   //Debug print
-            
-            
         }  // If nil returned then ignore and do nothing
+    }
+    
+    func checkCardMatch(firstCard: Int, secondCard: Int) -> Bool {
+        if firstCard == secondCard {
+            return true
+        }
+        return false
     }
         
     // MARK: check if index of chosen card is in cards array
