@@ -11,16 +11,17 @@ class EmojiMemoryGame: ObservableObject {
     private static let halloween = ["👽","🎃","☠️","👁️","👻","👺","👹","👀","🕷️","🪱","🐸","🐈‍⬛"]
     private static let cars      = ["🛺","🚂","🚲","✈️","🛳️","🚗","🚌","🚑","🚔","🚜","🚓","🚒"]
     private static let fruit     = ["🍉","🍎","🍋","🧄","🥦","🍇","🌽","🥕","🍌","🥝","🌶️","🫒"]
-    private static var emojis    = halloween
+    private static let emojiArray = [halloween, cars, fruit]
     
     private static func createMemoryGame() -> MemoryGame<String> {
-        let selectEmoji = Int.random(in: 1...3)
-        switch selectEmoji {
-            case 1:  emojis = halloween
-            case 2:  emojis = cars
-            case 3:  emojis = fruit
-            default: emojis = halloween
-        }
+        let emojis = emojiArray.randomElement()!  // emojiArray is not empty, force unwarp optional element from array
+//        let selectEmoji = Int.random(in: 1...3)
+//        switch selectEmoji {
+//            case 1:  let emojis = halloween
+//            case 2:  let emojis = cars
+//            case 3:  let emojis = fruit
+//            default: let emojis = halloween
+//        }
         return MemoryGame(numberCardPairs: Int.random(in: 4 ... 12)) { cardIndex in
             if emojis.indices.contains(cardIndex) {
                 return emojis[cardIndex]
@@ -44,16 +45,6 @@ class EmojiMemoryGame: ObservableObject {
     
     func shuffleCards() {
         game.shuffle()
-    }
-
-    func selectEmojiTheme(_ theme: String) {
-        switch theme {
-            case "halloween": EmojiMemoryGame.emojis = EmojiMemoryGame.halloween
-            case "cars":      EmojiMemoryGame.emojis = EmojiMemoryGame.cars
-            case "fruit":     EmojiMemoryGame.emojis = EmojiMemoryGame.fruit
-        default: break
-    }
-        return
     }
 }
 
