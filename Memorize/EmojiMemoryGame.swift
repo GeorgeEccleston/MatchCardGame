@@ -1,22 +1,27 @@
 //
 //  EmojiMemoryGameVM.swift
-//  Memorize
-//
+//  Memorize ViewModel
 //  Created by GeorgeAdmin on 12/23/23.
-//  ViewModel
+//
 
 import SwiftUI
 
 class EmojiMemoryGame: ObservableObject {
     
-    // global name space
     private static let halloween = ["👽","🎃","☠️","👁️","👻","👺","👹","👀","🕷️","🪱","🐸","🐈‍⬛"]
     private static let cars      = ["🛺","🚂","🚲","✈️","🛳️","🚗","🚌","🚑","🚔","🚜","🚓","🚒"]
     private static let fruit     = ["🍉","🍎","🍋","🧄","🥦","🍇","🌽","🥕","🍌","🥝","🌶️","🫒"]
     private static var emojis    = halloween
     
     private static func createMemoryGame() -> MemoryGame<String> {
-        return MemoryGame(numberCardPairs: Int.random(in: 2 ... 12)) { cardIndex in
+        let selectEmoji = Int.random(in: 1...3)
+        switch selectEmoji {
+            case 1:  emojis = halloween
+            case 2:  emojis = cars
+            case 3:  emojis = fruit
+            default: emojis = halloween
+        }
+        return MemoryGame(numberCardPairs: Int.random(in: 4 ... 12)) { cardIndex in
             if emojis.indices.contains(cardIndex) {
                 return emojis[cardIndex]
             } else {
@@ -45,7 +50,7 @@ class EmojiMemoryGame: ObservableObject {
         switch theme {
             case "halloween": EmojiMemoryGame.emojis = EmojiMemoryGame.halloween
             case "cars":      EmojiMemoryGame.emojis = EmojiMemoryGame.cars
-            case "fruit":      EmojiMemoryGame.emojis = EmojiMemoryGame.fruit
+            case "fruit":     EmojiMemoryGame.emojis = EmojiMemoryGame.fruit
         default: break
     }
         return

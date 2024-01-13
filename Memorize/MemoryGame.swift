@@ -8,7 +8,6 @@
 import Foundation
 
 struct MemoryGame<CardContent> where CardContent: Equatable {
-    
     private(set) var cards: [Card]
     
     init(numberCardPairs: Int, createACard: (Int) -> CardContent) {
@@ -18,48 +17,47 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             cards.append(Card(content: card, id: "\(pairIndex + 1)a"))
             cards.append(Card(content: card, id: "\(pairIndex + 1)b"))
         }
+//        var numberMatches = 0
+//        var numberMisses = 0
     }
+    
+    var indexFirstFaceUpCard: Int? 
+//    {
+//        get {
+//            let indexFirstFaceUpCard = cards.firstIndex(where: card[chosenIndex].isFaceUp == true)
+//        set {
+//        }
+//    }
     
     mutating func choose(_ card: Card) {
-        var numCardsSelected = 0
-        var indexFirstCard: Int = 0
-        let match = false
-        var numberMatches = 0
-        var numberMisses = 0
-
-        if let chosenIndex = index(of: card) {
-            cards[chosenIndex].isFaceUp.toggle()
-            numCardsSelected += 1
-            if numCardsSelected == 1 {indexFirstCard = chosenIndex}
-            if numCardsSelected == 2 && indexFirstCard != chosenIndex {
-                let match = checkCardMatch(firstCard: indexFirstCard, secondCard: chosenIndex)
+        if let chosenIndex = cards.firstIndex(where: { $0.id == card.id })  {
+            // Match cards that are face down and not matched
+            if !cards[chosenIndex].isFaceUp && !cards[chosenIndex].isMatched {
+                if let potentialMatchIndex = indexFirstFaceUpCard {
+                    // Check if two cards match
+                    if cards[chosenIndex].content == cards[potentialMatchIndex].content {
+                        cards[potentialMatchIndex].isMatched = true
+                        cards[chosenIndex].isMatched = true
+                        print("choosen \(card)")
+                    }
+                    // Once cards match, set first card index to nil
+                    indexFirstFaceUpCard = nil
+                } else {
+                    // Cards don't match, turn all cards face down
+                    for index in cards.indices {
+                        cards[index].isFaceUp = false
+                    }
+                    indexFirstFaceUpCard = chosenIndex
+                }
+                cards[chosenIndex].isFaceUp = true
             }
-            if match {
-                numberMatches += 1
-                cards.remove(at: indexFirstCard)
-                cards.remove(at: chosenIndex)
-            } else {
-                numberMisses += 1
-                cards[indexFirstCard].isFaceUp.toggle()
-                cards[chosenIndex].isFaceUp.toggle()
-            }
-            print("card chosen is \(card)")   //Debug print
-        }  // If nil returned then ignore and do nothing
-    }
-    
-    func checkCardMatch(firstCard: Int, secondCard: Int) -> Bool {
-        if firstCard == secondCard {
-            return true
         }
-        return false
     }
-        
-    // MARK: check if index of chosen card is in cards array
-    func index(of card: Card) -> Int? {
-        for index in cards.indices {
-            if cards[index].id == card.id { return index }
+       
+    mutating func checkCardMatch(indexFirstCard: Int, indexSecondCard: Int) {
+        if cards[indexFirstCard].content == cards[indexSecondCard].content {
+            print("Card Match \(indexFirstCard)  \(indexFirstCard)")   //Debug print
         }
-        return nil
     }
 
     mutating func shuffle() {
@@ -67,18 +65,15 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
 //        print(cards)
     }
 
-    struct Card: Equatable, Identifiable {
-        var isFaceUp = true
-        var isMatched = false
+    struct Card: Equatable, Identifiable, CustomDebugStringConvertible {
+        var isFaceUp  = false    // start with all cards face down
+        var isMatched = false    // and not matched
         let content: CardContent
-        
         var id: String
         
-// TODO: todo comment
-//  FIXME: Example of debug statement: requires Protocol CustomDebugStringConvertible
-//        var debugDescription: String {
-//         "card \(id) \(isFaceUp ? "FaceUp" : "FaceDown") \(isMatched ? "matched" : "not matched") \n"
-//       }
+        var debugDescription: String {
+         "card \(id): \(content) \(isFaceUp ? "FaceUp" : "FaceDown") \(isMatched ? " matched" : "not matched")"
+       }
     }
 }
 

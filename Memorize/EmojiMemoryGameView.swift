@@ -1,14 +1,11 @@
 //
 //  EmojiMemoryGameView.swift
 //  Memorize
-//
 //  Created by GeorgeAdmin on 12/18/23.
-//
 
 import SwiftUI
-
 struct EmojiMemoryGameView: View {
-    @ObservedObject var game: EmojiMemoryGame  // points back into ViewModel to check for changes in Model
+    @ObservedObject var gameViewModel: EmojiMemoryGame  // Looks at ViewModel for changes in Model
     
     @State var gameTheme = "Select Card Game Theme"
     @State var emojis: [String] = []
@@ -17,35 +14,33 @@ struct EmojiMemoryGameView: View {
     var body: some View {
         VStack {
             Text("Memorize Card Game").font(.title)
-            Text("Match Cards")
             Spacer()
                 ScrollView {
                     displayCards
-                        .animation(.default, value: game.cards)
+                        .animation(.default, value: gameViewModel.cards)
                 }
             Spacer()
             Button("Shuffle Cards") {
-                game.shuffleCards()
+                gameViewModel.shuffleCards()
             }
          
         }
         .padding(5.0)
     }
     var displayCards: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 90, maximum: 150),
-                           spacing: 0)], spacing: 0) {
-            ForEach(game.cards) { card in
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 90),spacing: 0)], spacing: 0) {
+            ForEach(gameViewModel.cards) { card in
                 VStack {
                     CardView(card)
                         .aspectRatio(2/3, contentMode: .fit)
                         .padding(4)
                         .onTapGesture {
-                            game.choose(card)
+                            gameViewModel.choose(card)
                         }
-//                    FIXME: Add card id to UI
-//                    Text(card.id)
-//                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-//                        .foregroundColor(Color.black)
+                    // TODO: show card id under the card in the UI
+                    Text(card.id)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color.black)
                 }
             }
             .foregroundColor(.orange)
@@ -66,7 +61,7 @@ struct CardView: View {
             Group {
                 cardShape.fill(.white)
                 cardShape.strokeBorder(lineWidth: 3)
-//              MARK: Display card content on UI
+//              MARK: Display card content on screen
                 Text(card.content)
                     .font(.system(size: 200))
                     .minimumScaleFactor(0.01)
@@ -76,6 +71,7 @@ struct CardView: View {
             cardShape.fill()
                 .opacity(card.isFaceUp ? 0 : 1)
         }
+        .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
     }
 }
  
@@ -87,5 +83,5 @@ struct CardView: View {
 
 
 #Preview {
-    EmojiMemoryGameView(game: EmojiMemoryGame())
+    EmojiMemoryGameView(gameViewModel: EmojiMemoryGame())
 }
