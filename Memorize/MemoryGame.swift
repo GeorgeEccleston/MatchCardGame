@@ -21,34 +21,26 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
 //        var numberMisses = 0
     }
     
-    var indexFirstFaceUpCard: Int? 
-//    {
-//        get {
-//            let indexFirstFaceUpCard = cards.firstIndex(where: card[chosenIndex].isFaceUp == true)
-//        set {
-//        }
-//    }
+    var indexFirstFaceUpCard: Int? {
+        get { cards.indices.filter {index in cards[index].isFaceUp }.onlyOneIndex }
+        set { cards.indices.forEach { cards[$0].isFaceUp = (newValue == $0) } }
+    }
     
     mutating func choose(_ card: Card) {
         if let chosenIndex = cards.firstIndex(where: { $0.id == card.id })  {
             // Match cards that are face down and not matched
             if !cards[chosenIndex].isFaceUp && !cards[chosenIndex].isMatched {
                 if let potentialMatchIndex = indexFirstFaceUpCard {
-                    // Check if two cards match
+                    // indexFirstFaceUpCard is not nil so can check if chosenCard Content matches firstCard Content
                     if cards[chosenIndex].content == cards[potentialMatchIndex].content {
                         cards[potentialMatchIndex].isMatched = true
                         cards[chosenIndex].isMatched = true
-                        print("choosen \(card)")
                     }
-                    // Once cards match, set first card index to nil
-                    indexFirstFaceUpCard = nil
                 } else {
-                    // Cards don't match, turn all cards face down
-                    for index in cards.indices {
-                        cards[index].isFaceUp = false
-                    }
+                    // set indexFirstFaceUpCard to chosenIndex
                     indexFirstFaceUpCard = chosenIndex
                 }
+                // turn chosen card faceup
                 cards[chosenIndex].isFaceUp = true
             }
         }
@@ -77,3 +69,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     }
 }
 
+extension Array {
+    var onlyOneIndex: Element? {
+        return count == 1 ? first : nil
+    }
+}
