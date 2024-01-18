@@ -45,9 +45,9 @@ struct EmojiView: View {
                             gameVM.choose(card)
                         }
                     // TODO: show card id under the card
-                    Text(card.id)
-                        .fontWeight(.bold)
-                        .foregroundColor(Color.black)
+//                    Text(card.id)
+//                        .fontWeight(.bold)
+//                        .foregroundColor(Color.black)
                 }
             }
             // FIXME: Original fixed theme color was .orange
