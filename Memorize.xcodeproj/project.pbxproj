@@ -101,10 +101,9 @@
 			isa = PBXGroup;
 			children = (
 				5BD707122B30E59B0043E90C /* MemoryGameApp.swift */,
-				5BD707142B30E59B0043E90C /* EmojiView.swift */,
-				5BF3DB692B37ACA200EA8138 /* EmojiVM.swift */,
-				5BEC8F612B549C3A00F9F83B /* Theme.swift */,
-				5BF3DB672B37A89B00EA8138 /* Game.swift */,
+				5BFEDA4E2B695B9A0010F3E5 /* View */,
+				5BFEDA4D2B695B6B0010F3E5 /* VM */,
+				5BFEDA4C2B695B240010F3E5 /* Model */,
 				5BD707162B30E59C0043E90C /* Assets.xcassets */,
 				5BD707182B30E59C0043E90C /* Preview Content */,
 			);
@@ -134,6 +133,31 @@
 				5BD7072F2B30E59D0043E90C /* MemorizeUITestsLaunchTests.swift */,
 			);
 			path = MemorizeUITests;
+			sourceTree = "<group>";
+		};
+		5BFEDA4C2B695B240010F3E5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5BF3DB672B37A89B00EA8138 /* Game.swift */,
+				5BEC8F612B549C3A00F9F83B /* Theme.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		5BFEDA4D2B695B6B0010F3E5 /* VM */ = {
+			isa = PBXGroup;
+			children = (
+				5BF3DB692B37ACA200EA8138 /* EmojiVM.swift */,
+			);
+			path = VM;
+			sourceTree = "<group>";
+		};
+		5BFEDA4E2B695B9A0010F3E5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5BD707142B30E59B0043E90C /* EmojiView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -434,7 +458,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Memorize/Preview Content\"";
-				DEVELOPMENT_TEAM = BWDAL38YQ6;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -463,7 +487,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Memorize/Preview Content\"";
-				DEVELOPMENT_TEAM = BWDAL38YQ6;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
